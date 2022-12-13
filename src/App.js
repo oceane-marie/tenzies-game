@@ -9,6 +9,15 @@ export default function App() {
     const [tenzies, setTenzies] = React.useState(false)
     const [count, setCount] = React.useState(0)
 
+    const [timer, setTimer] = React.useState(Date.now())
+
+    console.log(timer)
+
+    //set a timer
+    // starts when allNewDice is set
+    // ends when setTenzies is true
+
+
   // useEffect to keep 2 states in sync
     React.useEffect(() => {
       // need a reference number to compare all the other numbers to in the array
@@ -20,7 +29,10 @@ export default function App() {
         const allSameNumber = dice.every(die => die.value === firstValue)
         if(allHeld && allSameNumber) {
             setTenzies(true)
-        }
+            setTimer(Math.floor(Date.now() - timer) / 1000)
+            console.log(`timer ${timer}`)
+            console.log(`settimer ${setTimer}`)
+          }
     }, [dice])
 
     // create a random value for a die
@@ -99,6 +111,7 @@ export default function App() {
                 {tenzies ? "Reset Game" : "Roll"}
             </button>
             <p>You played {count} {count < 2 ? "time" : "times"}</p>
+            {tenzies === true && <p>{timer} seconds</p>}
         </main>
     )
 }
